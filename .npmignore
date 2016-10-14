@@ -1,0 +1,5 @@
+.npmignore
+.gitignore
+Makefile
+node_modules/
+.babelrc
