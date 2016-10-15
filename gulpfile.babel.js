@@ -1,11 +1,11 @@
 'use strict';
 
 import gulp from 'gulp';
-import insert from 'gulp-insert';
 import path from 'path';
 import gulpLoadPlugins from 'gulp-load-plugins';
 import filenames from 'gulp-filenames';
-var toPascalCase = require('to-pascal-case');
+import toPascalCase from 'to-pascal-case';
+import changeCase from 'change-case';
 
 const $ = gulpLoadPlugins({});
 
@@ -24,8 +24,7 @@ gulp.task('svg', () =>
       return {
         plugins:[
           {removeDoctype: true},
-          // {addClassesToSVGElement: {className: `ico-${name}`}},
-          {addAttributesToSVGElement: {attribute: "className", value: `octicons octicons-${name}`}},
+          {addAttributesToSVGElement: {attribute: "className"} },
           {removeTitle: true},
           {removeStyleElement: true},
           {removeAttrs: { attrs: ['id', 'class', 'data-name', 'fill', 'fill-rule'] }},
@@ -40,7 +39,7 @@ gulp.task('svg', () =>
       }
     }))
 
-    .pipe(insert.transform(function(contents, file) {
+    .pipe($.insert.transform(function(contents, file) {
       var name = toPascalCase(cap(path.basename(file.relative, path.extname(file.relative))));
 
       fileList = filenames.get("svg");
@@ -58,19 +57,33 @@ gulp.task('svg', () =>
     .pipe(gulp.dest('dist'))
 )
 
+gulp.task('replace', function() {
+  return gulp.src('dist/*.jsx')
+    .pipe($.tap(function(file) {
+      var fileName = path.basename(file.path);
+      var className = changeCase.lowerCase(changeCase.headerCase(fileName.replace('.jsx', '')));
+
+      return gulp.src('dist/' + fileName)
+        .pipe($.replace("className", 'className={`octicons octicons-'+ className +' ${props.className}`} onClick={props.onClick}'))
+        .pipe(gulp.dest('./dist'));
+    }));
+});
+
 gulp.task('file', () =>
   gulp.src('./index.js')
-    .pipe(insert.transform(function(contents, file) {
+    .pipe($.insert.transform(function(contents, file) {
       let text = "";
 
       fileList.map((e) => {
-          text += `import ${toPascalCase(cap(e.replace(/\.svg$/gm, '')))} from './dist/${toPascalCase(cap(e.replace(/\.svg$/gm, '')))}';\n`;
+        let fileName = toPascalCase(cap(e.replace(/\.svg$/gm, '')));
+        text += `import ${fileName} from './dist/${fileName}';\n`;
       })
 
       var footer = 'export {\n';
 
       fileList.map((e) => {
-          footer += `    ${toPascalCase(cap(e.replace(/\.svg$/gm, '')))},\n`;
+        let fileName = toPascalCase(cap(e.replace(/\.svg$/gm, '')));
+        footer += `    ${fileName},\n`;
       })
 
       return text + '\n' +footer + '};';
@@ -79,5 +92,5 @@ gulp.task('file', () =>
 )
 
 gulp.task('default', gulp.series(
-  'svg', 'file'
+  'svg', 'replace', 'file'
 ))
