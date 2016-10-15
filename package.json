@@ -1,14 +1,30 @@
 {
   "name": "react-octicons-svg",
-  "version": "1.0.6",
-  "description": "",
+  "version": "1.0.9",
+  "description": "Octicons React version",
   "main": "index.js",
   "scripts": {
     "start": "make",
     "prepublish": "make prepublish"
   },
   "author": "vaeum",
-  "license": "ISC",
+  "license": "MIT",
+  "keywords": [
+    "react",
+    "octicons",
+    "svg"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vaeum/react-octicons-svg.git"
+  },
+  "bugs": {
+    "url": "https://github.com/vaeum/react-octicons-svg/issues"
+  },
+  "homepage": "https://github.com/vaeum/react-octicons-svg#readme",
+  "dependencies": {
+    "octicons": "^4.4.0"
+  },
   "devDependencies": {
     "babel-core": "^6.17.0",
     "babel-preset-es2015": "^6.16.0",
@@ -23,7 +39,6 @@
     "gulp-replace": "^0.5.4",
     "gulp-svgmin": "^1.2.3",
     "gulp-tap": "^0.1.3",
-    "octicons": "^4.4.0",
     "to-pascal-case": "^1.0.0"
   }
 }

@@ -1,3 +1,4 @@
 node_modules/
 dist/
 index.js
+npm-debug.log

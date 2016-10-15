@@ -4,3 +4,4 @@ Makefile
 node_modules/
 .babelrc
 gulpfile.babel.js
+npm-debug.log

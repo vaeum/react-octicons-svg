@@ -24,7 +24,7 @@ gulp.task('svg', () =>
       return {
         plugins:[
           {removeDoctype: true},
-          {addAttributesToSVGElement: {attribute: "className"} },
+          {addAttributesToSVGElement: {attribute: "classNameString"} },
           {removeTitle: true},
           {removeStyleElement: true},
           {removeAttrs: { attrs: ['id', 'class', 'data-name', 'fill', 'fill-rule'] }},
@@ -45,10 +45,19 @@ gulp.task('svg', () =>
       fileList = filenames.get("svg");
 
       var react = "import React from 'react';\n\n";
-      var prepend = 'const '+ name +' = ((props) =>\n';
-      var append = '\n)\n\nexport default '+name+';';
+      var prepend = `const ${name} = ((props) =>\n`;
 
-      return react + prepend + "    " + contents + append;
+      var propTypes = `\n${name}.propTypes = {
+        className: React.PropTypes.oneOfType([
+          React.PropTypes.string,
+          React.PropTypes.func,
+        ]),
+        onClick: React.PropTypes.func,
+      }\n\n`
+
+      var footer = `\n)\n\n${propTypes}export default ${name};`;
+
+      return `${react}${prepend}  ${contents}${footer}`;
     }))
     .pipe($.extReplace('.jsx'))
     .pipe($.rename(function (path) {
@@ -64,7 +73,7 @@ gulp.task('replace', function() {
       var className = changeCase.lowerCase(changeCase.headerCase(fileName.replace('.jsx', '')));
 
       return gulp.src('dist/' + fileName)
-        .pipe($.replace("className", 'className={`octicons octicons-'+ className +' ${props.className}`} onClick={() => {props.onClick()}}'))
+        .pipe($.replace("classNameString", 'className={`octicons octicons-'+ className +' ${props.className}`} onClick={() => {props.onClick()}}'))
         .pipe(gulp.dest('./dist'));
     }));
 });
