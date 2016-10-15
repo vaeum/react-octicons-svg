@@ -8,6 +8,7 @@ import toPascalCase from 'to-pascal-case';
 import changeCase from 'change-case';
 
 const $ = gulpLoadPlugins({});
+const PREFIX = 'Icon'
 
 let fileList = [];
 
@@ -45,9 +46,9 @@ gulp.task('svg', () =>
       fileList = filenames.get("svg");
 
       var react = "import React from 'react';\n\n";
-      var prepend = `const ${name} = ((props) =>\n`;
+      var prepend = `const ${name}${PREFIX} = ((props) =>\n`;
 
-      var propTypes = `\n${name}.propTypes = {
+      var propTypes = `\n${name}${PREFIX}.propTypes = {
         className: React.PropTypes.oneOfType([
           React.PropTypes.string,
           React.PropTypes.func,
@@ -55,13 +56,13 @@ gulp.task('svg', () =>
         onClick: React.PropTypes.func,
       }\n\n`
 
-      var footer = `\n)\n\n${propTypes}export default ${name};`;
+      var footer = `\n)\n\n${propTypes}export default ${name}${PREFIX};`;
 
       return `${react}${prepend}  ${contents}${footer}`;
     }))
     .pipe($.extReplace('.jsx'))
     .pipe($.rename(function (path) {
-      path.basename = toPascalCase(cap(path.basename))
+      path.basename = `${toPascalCase(cap(path.basename))}${PREFIX}`
     }))
     .pipe(gulp.dest('dist'))
 )
@@ -85,14 +86,14 @@ gulp.task('file', () =>
 
       fileList.map((e) => {
         let fileName = toPascalCase(cap(e.replace(/\.svg$/gm, '')));
-        text += `import ${fileName} from './dist/${fileName}';\n`;
+        text += `import ${fileName}${PREFIX} from './dist/${fileName}${PREFIX}';\n`;
       })
 
       var footer = 'export {\n';
 
       fileList.map((e) => {
         let fileName = toPascalCase(cap(e.replace(/\.svg$/gm, '')));
-        footer += `    ${fileName},\n`;
+        footer += `    ${fileName}${PREFIX},\n`;
       })
 
       return text + '\n' +footer + '};';
@@ -103,3 +104,4 @@ gulp.task('file', () =>
 gulp.task('default', gulp.series(
   'svg', 'replace', 'file'
 ))
+
