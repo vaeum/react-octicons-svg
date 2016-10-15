@@ -64,7 +64,7 @@ gulp.task('replace', function() {
       var className = changeCase.lowerCase(changeCase.headerCase(fileName.replace('.jsx', '')));
 
       return gulp.src('dist/' + fileName)
-        .pipe($.replace("className", 'className={`octicons octicons-'+ className +' ${props.className}`} onClick={props.onClick}'))
+        .pipe($.replace("className", 'className={`octicons octicons-'+ className +' ${props.className}`} onClick={() => {props.onClick()}}'))
         .pipe(gulp.dest('./dist'));
     }));
 });
