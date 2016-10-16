@@ -46,24 +46,30 @@ gulp.task('svg', () =>
 
       fileList = filenames.get("svg");
 
-      let react = "import React from 'react';\n\n";
-      let prepend = `const ${name}${PREFIX} = ((props) =>\n`;
+      let component = `
+      import React, {Component, PropTypes} from 'react';
 
-      let propTypes = `\n${name}${PREFIX}.propTypes = {
-        className: React.PropTypes.oneOfType([
-          React.PropTypes.string,
-          React.PropTypes.func,
-        ]),
-        onClick: React.PropTypes.func,
-      }\n\n`;
+      export default class ${name}${PREFIX} extends Component {
+        static propTypes = {
+          className: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.func,
+          ]),
+          onClick: PropTypes.func,
+        };
 
-      let defaultProps = `\n${name}${PREFIX}.defaultProps = {
-        className: '',
-      }\n\n`;
+        constructor(props) {
+          super(props);
+        }
 
-      let footer = `\n)\n\n${propTypes}${defaultProps}export default ${name}${PREFIX};`;
+        render() {
+          return (
+            ${contents}
+          )
+        }
+      };`;
 
-      return `${react}${prepend}  ${contents}${footer}`;
+      return component;
     }))
     .pipe($.extReplace('.jsx'))
     .pipe($.rename(function (path) {
@@ -79,7 +85,7 @@ gulp.task('replace', function() {
       var className = changeCase.lowerCase(changeCase.headerCase(fileName.replace('.jsx', '')));
 
       return gulp.src('dist/' + fileName)
-        .pipe($.replace("classNameString", 'className={`' + CLASSNAME + ' ' + CLASSNAME + '-'+ className +' ${props.className}`} onClick={() => {props.onClick()}}'))
+        .pipe($.replace("classNameString", `className="${CLASSNAME} ${CLASSNAME}-${className}" {...this.props}`))
         .pipe(gulp.dest('./dist'));
     }));
 });
