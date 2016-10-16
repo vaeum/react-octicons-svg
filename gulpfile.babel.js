@@ -8,7 +8,8 @@ import toPascalCase from 'to-pascal-case';
 import changeCase from 'change-case';
 
 const $ = gulpLoadPlugins({});
-const PREFIX = 'Icon'
+const PREFIX = 'Icon';
+const CLASSNAME = 'octicons';
 
 let fileList = [];
 
@@ -41,22 +42,26 @@ gulp.task('svg', () =>
     }))
 
     .pipe($.insert.transform(function(contents, file) {
-      var name = toPascalCase(cap(path.basename(file.relative, path.extname(file.relative))));
+      let name = toPascalCase(cap(path.basename(file.relative, path.extname(file.relative))));
 
       fileList = filenames.get("svg");
 
-      var react = "import React from 'react';\n\n";
-      var prepend = `const ${name}${PREFIX} = ((props) =>\n`;
+      let react = "import React from 'react';\n\n";
+      let prepend = `const ${name}${PREFIX} = ((props) =>\n`;
 
-      var propTypes = `\n${name}${PREFIX}.propTypes = {
+      let propTypes = `\n${name}${PREFIX}.propTypes = {
         className: React.PropTypes.oneOfType([
           React.PropTypes.string,
           React.PropTypes.func,
         ]),
         onClick: React.PropTypes.func,
-      }\n\n`
+      }\n\n`;
 
-      var footer = `\n)\n\n${propTypes}export default ${name}${PREFIX};`;
+      let defaultProps = `\n${name}${PREFIX}.defaultProps = {
+        className: '',
+      }\n\n`;
+
+      let footer = `\n)\n\n${propTypes}${defaultProps}export default ${name}${PREFIX};`;
 
       return `${react}${prepend}  ${contents}${footer}`;
     }))
@@ -74,7 +79,7 @@ gulp.task('replace', function() {
       var className = changeCase.lowerCase(changeCase.headerCase(fileName.replace('.jsx', '')));
 
       return gulp.src('dist/' + fileName)
-        .pipe($.replace("classNameString", 'className={`octicons octicons-'+ className +' ${props.className}`} onClick={() => {props.onClick()}}'))
+        .pipe($.replace("classNameString", 'className={`' + CLASSNAME + ' ' + CLASSNAME + '-'+ className +' ${props.className}`} onClick={() => {props.onClick()}}'))
         .pipe(gulp.dest('./dist'));
     }));
 });
@@ -89,7 +94,7 @@ gulp.task('file', () =>
         text += `import ${fileName}${PREFIX} from './dist/${fileName}${PREFIX}';\n`;
       })
 
-      var footer = 'export {\n';
+      let footer = 'export {\n';
 
       fileList.map((e) => {
         let fileName = toPascalCase(cap(e.replace(/\.svg$/gm, '')));
