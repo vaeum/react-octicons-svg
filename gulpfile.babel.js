@@ -122,6 +122,10 @@ gulp.task('watch', () => {
   gulp.watch('gulpfile.babel.js', gulp.series('gulp-reload'));
 });
 
+gulp.task('build', gulp.series(
+  'svg', 'replace', 'file'
+))
+
 gulp.task('default', gulp.series(
   'svg', 'replace', 'file', 'watch'
 ))
