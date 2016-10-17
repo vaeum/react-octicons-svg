@@ -31,6 +31,7 @@
     "babel-preset-react": "^6.16.0",
     "babel-preset-stage-0": "^6.16.0",
     "change-case": "^3.0.0",
+    "child_process": "^1.0.2",
     "gulp": "github:gulpjs/gulp#4.0",
     "gulp-ext-replace": "^0.3.0",
     "gulp-filenames": "^4.0.0",

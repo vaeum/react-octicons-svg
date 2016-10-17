@@ -11,6 +11,7 @@ const $ = gulpLoadPlugins({});
 const PREFIX = 'Icon';
 const CLASSNAME = 'octicons';
 
+let spawn = require('child_process').spawn;
 let fileList = [];
 
 function cap(string) {
@@ -20,8 +21,8 @@ function cap(string) {
 gulp.task('svg', () =>
   gulp.src('./node_modules/octicons/build/svg/**/*.svg')
     .pipe(filenames("svg"))
-    .pipe($.svgmin((file)=>{
-      var name = path.basename(file.relative, path.extname(file.relative));
+    .pipe($.svgmin((file) => {
+      let name = path.basename(file.relative, path.extname(file.relative));
 
       return {
         plugins:[
@@ -36,12 +37,12 @@ gulp.task('svg', () =>
           {removeEmptyText: true},
           {removeEditorsNSData: true},
           {removeEmptyAttrs: true},
-          {removeHiddenElems: true}
+          {removeHiddenElems: true},
         ]
       }
     }))
 
-    .pipe($.insert.transform(function(contents, file) {
+    .pipe($.insert.transform((content, file) => {
       let name = toPascalCase(cap(path.basename(file.relative, path.extname(file.relative))));
 
       fileList = filenames.get("svg");
@@ -64,7 +65,7 @@ gulp.task('svg', () =>
 
         render() {
           return (
-            ${contents}
+            ${content}
           )
         }
       };`;
@@ -72,19 +73,19 @@ gulp.task('svg', () =>
       return component;
     }))
     .pipe($.extReplace('.jsx'))
-    .pipe($.rename(function (path) {
+    .pipe($.rename((path) => {
       path.basename = `${toPascalCase(cap(path.basename))}${PREFIX}`
     }))
-    .pipe(gulp.dest('dist'))
+    .pipe(gulp.dest('./dist'))
 )
 
-gulp.task('replace', function() {
-  return gulp.src('dist/*.jsx')
-    .pipe($.tap(function(file) {
-      var fileName = path.basename(file.path);
-      var className = changeCase.lowerCase(changeCase.headerCase(fileName.replace('.jsx', '')));
+gulp.task('replace', () => {
+  return gulp.src('./dist/*.jsx')
+    .pipe($.tap((file) => {
+      let fileName = path.basename(file.path);
+      let className = changeCase.lowerCase(changeCase.headerCase(fileName.replace('.jsx', '')));
 
-      return gulp.src('dist/' + fileName)
+      return gulp.src('./dist/' + fileName)
         .pipe($.replace("classNameString", `className="${CLASSNAME} ${CLASSNAME}-${className}" {...this.props}`))
         .pipe(gulp.dest('./dist'));
     }));
@@ -92,7 +93,7 @@ gulp.task('replace', function() {
 
 gulp.task('file', () =>
   gulp.src('./index.js')
-    .pipe($.insert.transform(function(contents, file) {
+    .pipe($.insert.transform((contents, file) => {
       let text = "";
 
       fileList.map((e) => {
@@ -112,7 +113,17 @@ gulp.task('file', () =>
     .pipe(gulp.dest('./'))
 )
 
+gulp.task('gulp-reload', () => {
+  spawn('./node_modules/.bin/gulp', ['default'], {stdio: 'inherit'});
+  process.exit();
+});
+
+gulp.task('watch', () => {
+  gulp.watch('gulpfile.babel.js', gulp.series('gulp-reload'));
+});
+
 gulp.task('default', gulp.series(
-  'svg', 'replace', 'file'
+  'svg', 'replace', 'file', 'watch'
 ))
+
 
