@@ -68,7 +68,7 @@ gulp.task('svg', () =>
             ${content}
           )
         }
-      };`;
+      }`;
 
       return component;
     }))
