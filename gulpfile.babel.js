@@ -56,7 +56,6 @@ gulp.task('svg', () =>
             PropTypes.string,
             PropTypes.func,
           ]),
-          onClick: PropTypes.func,
         };
 
         constructor(props) {
@@ -87,6 +86,8 @@ gulp.task('replace', () => {
 
       return gulp.src('./dist/' + fileName)
         .pipe($.replace("classNameString", `className="${CLASSNAME} ${CLASSNAME}-${className}" {...this.props}`))
+        .pipe($.replace(/xmlns:xlink=".+?"/, ``))
+        .pipe($.replace(/xlink:href=".+?"/, ``))
         .pipe(gulp.dest('./dist'));
     }));
 });
