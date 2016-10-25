@@ -6,6 +6,8 @@ Source [https://octicons.github.com/](https://octicons.github.com/)
 
 [![NPM](https://nodei.co/npm-dl/react-octicons-svg.png?months=1)](https://nodei.co/npm/react-octicons-svg/)
 
+[![Build Status](https://travis-ci.org/vaeum/react-octicons-svg.svg?branch=master)](https://travis-ci.org/vaeum/react-octicons-svg)
+
 ### Install
 
 ```
@@ -34,4 +36,5 @@ import { SettingsIcon } from 'react-octicons-svg';
 ### Props
 
 - className
-- onClick
+
+  ​
