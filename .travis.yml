@@ -10,7 +10,7 @@ env:
 
 before_install:
 - npm config set depth 0
-- npm install --ignore-scripts
+- npm install -g babel-cli
 
 before_script:
 - npm install -g webpack
