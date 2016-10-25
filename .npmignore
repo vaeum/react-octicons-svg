@@ -6,3 +6,5 @@ node_modules/
 gulpfile.babel.js
 npm-debug.log
 yarn.lock
+.travis.yml
+docs/

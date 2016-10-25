@@ -1,0 +1,166 @@
+body{
+  position: relative;
+}
+
+.github-badge {
+  background-color: red;
+  overflow: hidden;
+  position: fixed;
+  left: -3em;
+  top: 2.5em;
+  transform: rotate(-45deg);
+  box-shadow: 0 0 1em #888;
+  z-index: 100;
+  a {
+    border: 1px solid white;
+    color: #fff;
+    display: block;
+    font: bold 81.25% 'Helvetiva Neue', Helvetica, Arial, sans-serif;
+    margin: 0.05em 0 0.075em 0;
+    padding: 0.5em 3.5em;
+    text-align: center;
+    text-decoration: none;
+    text-shadow: 0 0 0.5em #444;
+  }
+}
+
+#root{
+
+}
+
+.page-title{
+  font-size: 50px;
+  margin-bottom: 50px;
+  margin-top: 60px;
+}
+
+.icons{
+  &__note{
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    z-index: 2;
+    background-color: rgba(0,0,0,0.85);
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.4);
+    color: #fff;
+    padding: 10px 20px;
+    display: none;
+    animation: fade-in .3s linear 1;
+
+    &.is-show{
+      display: block;
+    }
+  }
+
+  &__list{
+    padding-left: 0;
+  }
+
+  &__list-item{
+    // width: 10%;
+    // float: left;
+    // list-style: none;
+    display: inline-block;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    float: left;
+    background-color: #fff;
+    min-width: 68px;
+  }
+
+  &__link{
+    display: block;
+    border: 1px solid #ddd;
+    padding: 17px;
+    border-radius: 5px;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    line-height: 0;
+    color: #333;
+    outline: none;
+    cursor: pointer;
+    position: relative;
+
+    &:hover{
+      background: #eee;
+
+      .icons__icon-description{
+        display: block;
+        animation: fade-in .3s linear 1;
+      }
+    }
+
+    &.is-copied{
+      &:after{
+        border-radius: 5px;
+        content: '';
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        top: 0;
+        border: 1px solid green;
+        background: rgba(0, 128, 0, 0.42);
+      }
+    }
+  }
+
+  &__icon{
+    // height: 50px;
+    // width: 50px;
+  }
+
+  &__icon-description{
+    background-color: rgba(0,0,0,0.85);
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.4);
+    color: #fff;
+    display: none;
+    // font-size: 12px;
+    // font-family: 'Helvetica',sans-serif;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 110%;
+    padding: 10px 10px;
+    position: absolute;
+    // width: 200px;
+    z-index: 4;
+
+    &:before {
+      border-top: 7px solid rgba(0,0,0,0.85);
+      border-right: 7px solid transparent;
+      border-left: 7px solid transparent;
+      bottom: -7px;
+      content: '';
+      display: block;
+      left: 50%;
+      margin-left: -7px;
+      position: absolute;
+    }
+  }
+}
+
+svg{
+  height: 32px;
+  width: auto;
+
+  display: inline-block;
+  vertical-align: text-top;
+  fill: currentColor;
+}
+
+
+@keyframes fade-in {
+  from   { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.footer{
+  padding-top: 20px;
+  padding-bottom: 20px;
+  margin-top: 20px;
+  // margin-bottom: 20px;
+  border-top: 1px #ddd solid;
+}
