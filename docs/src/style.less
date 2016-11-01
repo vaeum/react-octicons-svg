@@ -1,11 +1,16 @@
 body{
   position: relative;
+  min-width: 1170px;
+}
+
+.container{
+  min-width: 1170px;
 }
 
 .github-badge {
   background-color: red;
   overflow: hidden;
-  position: fixed;
+  position: absolute;
   left: -3em;
   top: 2.5em;
   transform: rotate(-45deg);
@@ -26,12 +31,6 @@ body{
 
 #root{
 
-}
-
-.page-title{
-  font-size: 50px;
-  margin-bottom: 50px;
-  margin-top: 60px;
 }
 
 .icons{
@@ -55,6 +54,7 @@ body{
 
   &__list{
     padding-left: 0;
+    // margin-right: -15px;
   }
 
   &__list-item{
@@ -138,6 +138,39 @@ body{
       left: 50%;
       margin-left: -7px;
       position: absolute;
+    }
+  }
+
+  &__page-title{
+    font-size: 40px;
+    margin-bottom: 50px;
+    margin-top: 30px;
+  }
+
+  &__filter-input{
+    // float: right;
+    margin-top: 30px;
+    border: 1px #ddd solid;
+    height: 30px;
+    border-radius: 5px;
+    padding: 0 10px;
+
+    &:hover, &:focus{
+      background-color: #f5f5f5;
+      border: 1px solid #ccc;
+      outline: none;
+    }
+  }
+
+  &__not-found{
+    background-color: #f5f5f5;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 40px 20px;
+
+    h3{
+      margin-top: 0;
+      margin-bottom: 0;
     }
   }
 }

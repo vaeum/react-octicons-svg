@@ -30,7 +30,7 @@ gulp.task('svg', () =>
           {addAttributesToSVGElement: {attribute: "classNameString"} },
           {removeTitle: true},
           {removeStyleElement: true},
-          {removeAttrs: { attrs: ['id', 'class', 'data-name', 'fill', 'fill-rule'] }},
+          {removeAttrs: { attrs: ['id', 'class', 'data-name', 'fill'] }},
           {removeEmptyContainers: true},
           {sortAttrs: true},
           {removeUselessDefs: true},
@@ -38,6 +38,7 @@ gulp.task('svg', () =>
           {removeEditorsNSData: true},
           {removeEmptyAttrs: true},
           {removeHiddenElems: true},
+          {collapseGroups: false},
         ]
       }
     }))
@@ -88,6 +89,7 @@ gulp.task('replace', () => {
         .pipe($.replace("classNameString", `className="${CLASSNAME} ${CLASSNAME}-${className}" {...this.props}`))
         .pipe($.replace(/xmlns:xlink=".+?"/, ``))
         .pipe($.replace(/xlink:href=".+?"/, ``))
+        .pipe($.replace("fill-rule=", "fillRule="))
         .pipe(gulp.dest('./dist'));
     }));
 });
