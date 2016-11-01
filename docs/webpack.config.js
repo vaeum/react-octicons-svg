@@ -64,12 +64,12 @@ module.exports = {
     publicPath: '/dist/'
   },
   resolve: {
-    extensions: ['', '.js', '.jsx', '.scss', '.css', 'json'],
+    extensions: ['', '.js', '.jsx', '.less', '.css', 'json'],
   },
   module: {
     loaders: [
       {test: /\.jsx?$/, loaders: ['react-hot', 'babel'], include: path.join(__dirname, 'src')},
-      {test: /\.scss$/, loaders: ['style', 'css', 'postcss-loader', 'sass']},
+      {test: /\.less$/, loaders: ['style', 'css', 'postcss-loader', 'less']},
       {test: /.json$/, loaders: ['json']},
       { test: /\.md$/, loader: "html!markdown" },
     ]

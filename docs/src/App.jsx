@@ -5,7 +5,7 @@ import Footer from './Footer';
 
 import pj from '../../package.json';
 import readme from '../../README.md';
-import './style.scss';
+import './style.less';
 
 const cn = require('bem-cn')('icons');
 const cap = (string) => string.charAt(0).toUpperCase() + string.slice(1);
