@@ -15,7 +15,7 @@ const AUTOPREFIXER_BROWSERS = [
 
 const plugins = [
   new webpack.NoErrorsPlugin(),
-  new webpack.optimize.DedupePlugin(),
+  // new webpack.optimize.DedupePlugin(),
   new webpack.optimize.OccurrenceOrderPlugin(),
   new webpack.HotModuleReplacementPlugin()
 ];
