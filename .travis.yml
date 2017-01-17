@@ -16,13 +16,13 @@ before_script:
 - npm install -g webpack
 
 script:
-- cd docs
+- git checkout gh-pages
 - webpack
 - rm -rf .git
 - git init
 - git config user.name "Alexander Anpleenko"
 - git config user.email "vaeum@yahoo.com"
-- git add index.html
+- git add .
 - git add -f dist
 - git commit -m "Deploy to GitHub Pages"
 - git push --force --quiet "https://${GH_TOKEN}@${GH_REF}" master:gh-pages > /dev/null 2>&1
