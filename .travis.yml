@@ -17,6 +17,7 @@ before_script:
 
 script:
 - git checkout gh-pages
+- npm install
 - webpack
 - rm -rf .git
 - git init
