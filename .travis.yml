@@ -1,35 +1,25 @@
 language: node_js
-
 node_js:
 - 6
-
 env:
   global:
   - GH_REF: github.com/vaeum/react-octicons-svg.git
-  - secure: AJhliPa4b/mbvu2gjQTCqzdXgj8BMAjeWJ3AAytXbsineQE5y1u2HZQuYWnckWvVCv8msq+MayWNOTECe+s5O6Qt55z6a7Q5Iy4ErOSXF3AcPy0uyGnrrqKJw1xQAqXtaaWCYm+nHSKxz/GohxFykdHrX/815KATcQ79gh3Qg7ZlsRnFeUdJy9rd46V0rtmi7FUFVXpEKh3WEWhnCRb6XGibGvDiEPNiP5f5OTLQsYGbN/CB4NSlbPFkRU0/ZguF9v3q6EvJhA7YUYfDjjelA1JwYXn++K3CtdYFWVKHfNqYsjdY/VZ2Rh9/68/fBa4HJyXnQ5lXPz3yAj+K6dKuiXjLItrc85oA4aXgohBow1ZE0zaWP0aaOthxEeXV+QpfaJYTH7KC5eYgTshr51BC43/+EB8cutYyUKNtB5VdtfoCg9v0jgs4gY6XmkCPaB4KAEseBcSYjFBp0VwAzFxpDpyo2U4PDVLOp2rUTsE1vOjgYGTLkIhsawh7IYj59WSxxlmNtvUhS1+lb0G2DjNOMH7ElGj1ukc0S0qpQ9xLSsEABm6DO8grO8N4dMSjbYcP8TVcSjW1QARBWBErH5xTP5WYn+6B6j2xRhJLjv/U5Rq9sb3kupmYLCwB0dr4OA2bVfEzRgBJ2j/cYfdmv0S2L40ckLn4TtSQ/+zENw7p1Y8=
-
 before_install:
-- git config remote.origin.fetch '+refs/heads/*:refs/remotes/origin/*'
-- git fetch --all
-- git checkout gh-pages
 - npm config set depth 0
 - npm install -g babel-cli
-
 before_script:
 - npm install -g webpack
-
 script:
-- npm install
-- webpack
-- rm -rf .git
-- git init
-- git config user.name "Alexander Anpleenko"
-- git config user.email "vaeum@yahoo.com"
-- git add .
-- git add -f dist
-- git commit -m "Deploy to GitHub Pages"
-- git push --force --quiet "https://${GH_TOKEN}@${GH_REF}" master:gh-pages > /dev/null 2>&1
-
 branches:
   only:
   - master
+  - /v\d+\.\d+[a-z]/
+deploy:
+  provider: npm
+  email: vaeum@yahoo.com
+  api_key:
+    secure: qZFLmG1tFq2zDXLJ3eG2JfUv2MrJp7vK3G28hzf1nNu9O2gwSgjMdJbC1tW2jBmXYoHaOSstx/Dat7ENyWaRK7q2i9JvPBzFayjn6vjPfb6g2/leJvZibXNYbUpbT2tP74cHDgLOmPY3vLPzNdUcL51o3fJ0ml2hvJ4vcalgBTO3zOR3qDP8BVR9y0TBGqg/Q6cbeLINraAprKxWr0zc63kn3ChoHFcD9JNYoTYtZ+u08K7tFfv06L2A+pGlbGriyg6a/RtFeq5KXpZ7RBk/wOKSuVpOgcwAyovWFquV6vTM+Me9ndRcRxyaws0Yq+HWw6q2HxvB0AKY+AGj+vElfoQHukjZERwCVg7zUOuLydpsEcx6EvjtDXpWysp2UIoA5a37Runayu9gidfWz4JOaQ4/gk8Ey27Og/ePrHl4VPyUL48lkaq3bNxHvrxhT2IwzTGopLQoqXgvTDkBtLXGCz7awHWwTYgHtgSEH8i2aLFXXkBIN9Ps6Z7mEIWDRL9SPDvxX/7D1E9XeaIzZHosM2QMymZz74eqnLluKHAbuqn0za/Igh8tH81KSxQUE7IOlrfyNJJ2OVKPWoV3zumtwvXi0At97xk0RMnEsYe8hmKQZLmCtSG0ARRcPkCqlImx+mrVLkIvX5KgDFPzx3HnTQ+SVn9HR4zJ7b5+tl463NU=
+  on:
+    tags: true
+    repo: vaeum/react-octicons-svg
+    branch: master

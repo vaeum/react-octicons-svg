@@ -39,6 +39,14 @@ import { SettingsIcon } from 'react-octicons-svg';
 
 - className
 
+### Deploy
+
+```
+$ git add . && git commit -m "my message"
+$ git tag 0.1234
+$ git push origin --tags
+$ git push origin master
+```
   ​
 [downloads-image]: https://img.shields.io/npm/dm/react-octicons-svg.svg
 [npm-url]: https://www.npmjs.com/package/react-octicons-svg
