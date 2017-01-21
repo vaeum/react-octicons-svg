@@ -8,12 +8,16 @@ before_install:
 - npm config set depth 0
 - npm install -g babel-cli
 before_script:
-- npm install -g webpack
 script:
 branches:
   only:
   - master
-  - /v\d+\.\d+[a-z]/
+  - /v\d+\.\d+\.\d+/
+
+before_deploy:
+  - ls
+  - make prepublish
+
 deploy:
   provider: npm
   email: vaeum@yahoo.com
