@@ -12,7 +12,7 @@ script:
 branches:
   only:
   - master
-  - /v\d+\.\d+\.\d+/
+  - /\d+\.\d+\.\d+/
 
 before_deploy:
   - ls
