@@ -4,7 +4,8 @@
   "description": "Octicons React version",
   "main": "index.js",
   "scripts": {
-    "start": "make"
+    "start": "make",
+    "prepublish": "make prepublish"
   },
   "author": "vaeum",
   "license": "MIT",
