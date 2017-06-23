@@ -1,6 +1,6 @@
 {
   "name": "react-octicons-svg",
-  "version": "1.1.13",
+  "version": "1.2.0",
   "description": "Octicons React version",
   "main": "index.js",
   "scripts": {
