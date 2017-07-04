@@ -47,7 +47,7 @@ $ git tag 0.1234
 $ git push origin --tags
 $ git push origin master
 ```
-  ​
+
 [downloads-image]: https://img.shields.io/npm/dm/react-octicons-svg.svg
 [npm-url]: https://www.npmjs.com/package/react-octicons-svg
 [npm-image]: https://img.shields.io/npm/v/react-octicons-svg.svg
