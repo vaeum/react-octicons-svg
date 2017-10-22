@@ -8,14 +8,14 @@ import toPascalCase from 'to-pascal-case';
 import changeCase from 'change-case';
 
 const $ = gulpLoadPlugins({});
-const PREFIX = 'Icon';
+const PREFIX = '';
 const CLASSNAME = 'octicons';
 
 let spawn = require('child_process').spawn;
 let fileList = [];
 
 function cap(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
+  return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
 gulp.task('svg', () =>
@@ -49,27 +49,12 @@ gulp.task('svg', () =>
       fileList = filenames.get("svg");
 
       let component = `
-      import React, {Component, PropTypes} from 'react';
-
-      export default class ${name}${PREFIX} extends Component {
-        static defaultProps = {
-          className: ''
-        };
-
-        constructor(props) {
-          super(props);
-        }
-
-        render() {
-          return (
-            ${content}
-          )
-        }
-      }`;
-
+      import React from 'react';
+      const ${name}${PREFIX} = (props) => ${content}
+      export default ${name}${PREFIX}`;
       return component;
     }))
-    .pipe($.extReplace('.jsx'))
+    .pipe($.extReplace('.js'))
     .pipe($.rename((path) => {
       path.basename = `${toPascalCase(cap(path.basename))}${PREFIX}`
     }))
@@ -80,12 +65,12 @@ gulp.task('replace', () => {
   return gulp.src('./dist/*.jsx')
     .pipe($.tap((file) => {
       let fileName = path.basename(file.path);
-      let className = changeCase.lowerCase(changeCase.headerCase(fileName.replace('.jsx', '')));
+      let className = changeCase.lowerCase(changeCase.headerCase(fileName.replace('.js', '')));
 
       return gulp.src('./dist/' + fileName)
         .pipe($.replace(
           "classNameString",
-          `{...this.props} className={\`${CLASSNAME} ${CLASSNAME}-${className} \${this.props.className\}\`}`
+          `{...props} className={\`${CLASSNAME} ${CLASSNAME}-${className} \${props.className\}\`}`
         ))
         .pipe($.replace(/xmlns:xlink=".+?"/g, ``))
         .pipe($.replace(/xlink:href=".+?"/g, ``))
